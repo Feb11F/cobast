@@ -146,7 +146,7 @@ with st.container():
     with st.sidebar:
         selected = option_menu(
         st.write("""<h3 style = "text-align: center;"><img src="https://cdn-icons-png.flaticon.com/512/1998/1998664.png" width="120" height="120"></h3>""",unsafe_allow_html=True), 
-        ["Home", "Dataset", "Implementation"], 
+        ["Home", "Dataset", "Implementation","coba"], 
             icons=['house', 'bar-chart','check2-square', 'person'], menu_icon="cast", default_index=0,
             styles={
                 "container": {"padding": "0!important", "background-color": "#412a7a"},
@@ -239,3 +239,10 @@ with st.container():
                     st.success('malignant')
                 else :
                     st.success('benign')
+    if selected == "coba":
+        with st.form("my_form"):
+            input = st.text_input("Masukkan text")
+            submit = st.form_submit_button("submit")
+            if submit :
+                st.subheader("Teks")
+                st.success(input)
