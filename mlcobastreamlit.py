@@ -240,9 +240,46 @@ with st.container():
                 else :
                     st.success('benign')
     if selected == "coba":
+        from sklearn.datasets import load_breast_cancer
+        from sklearn.model_selection import train_test_split
+        from sklearn.metrics import accuracy_score
+
+
+        breast_cancer = load_breast_cancer()
+        X = breast_cancer.data
+        y = breast_cancer.target
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        X_train_subset = X_train[:,:5]
+        y_train_subset = y_train[:]
+
+
+        # Create and train AdaBoostClassifier
+        adaboost = AdaBoostClassifier(n_estimators=3, learning_rate=0.1)
+        adaboost.fit(X_train_subset, y_train_subset)
+
+        y_pred = adaboost.predict(X_test[:,:5])
+
+        accuracy = accuracy_score(y_test, y_pred)
+        print("Accuracy:", accuracy)
+
         with st.form("my_form"):
-            input = st.text_input("Masukkan text")
+            st.subheader("Implementasi")
+            mean_radius = st.number_input('Masukkan Mean radius')
+            mean_tektstur = st.number_input('Masukkan Mean texture')
+            mean_perimeter = st.number_input('Masukkan Mean perimeter')
+            mean_area = st.number_input('Masukkan Mean area')
+            mean_smoothness = st.number_input('Masukkan Mean smoothness')
             submit = st.form_submit_button("submit")
-            if submit :
-                st.subheader("Teks")
-                st.success(input)
+            inputs = np.array([mean_radius,mean_tektstur,mean_perimeter,mean_area,mean_smoothness])
+            input_norm = np.array(inputs).reshape(-1,5)
+            input_pred = adaboost.predict(input_norm)
+            
+            if submit:
+                st.subheader('Hasil Prediksi')
+            # Menampilkan hasil prediksi
+                if input_pred=='0':
+                    st.success('malignant')
+                else :
+                    st.success('benign')
