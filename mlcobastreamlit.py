@@ -228,7 +228,7 @@ with st.container():
             if submit:
                 st.subheader('Hasil Prediksi')
                 inputs = np.array([mean_radius,mean_tektstur,mean_perimeter,mean_area,mean_smoothness])
-                input_norm = np.array(inputs).reshape(-1,5)
+                input_norm = np.array(inputs).reshape(1,5)
                 input_pred = adaboost.predict(input_norm)
             # Menampilkan hasil prediksi
                 if input_pred=='0':
